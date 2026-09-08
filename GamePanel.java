@@ -12,6 +12,9 @@ public class GamePanel extends JPanel implements KeyListener {
     Timer time;
     Player player = new Player();
     boolean jump = false;
+    JLabel label = new JLabel("x: " + player.x + "y: " + player.y, SwingConstants.CENTER);  
+ 
+
 
     // pipe variables
     int bottomPipeY = 400 + new Random().nextInt(100);
@@ -21,11 +24,15 @@ public class GamePanel extends JPanel implements KeyListener {
     Pipe topPipe = new Pipe(Main.width , 0 , 50 , topPipeheight);
     Pipe bottPipe = new Pipe(Main.width , bottomPipeY , 50 , 800);
 
+
+    JLabel label_pipe = new JLabel("pipe- x: " + topPipe.x + "y: " + topPipe.y, SwingConstants.CENTER); 
     boolean pause = false;
 
     public GamePanel() {
         setBackground(Color.LIGHT_GRAY);
         addKeyListener(this);
+        add(label);
+        add(label_pipe);
         setFocusable(true);
         time = new Timer(16, a -> {
             update();
@@ -58,6 +65,14 @@ public class GamePanel extends JPanel implements KeyListener {
             topPipe.height = topPipeheight;
             bottPipe.y = bottomPipeY;
         }
+
+
+        if (player.collosionTop(topPipe) || player.collosionBott(bottPipe)) {
+            pause();
+        }
+
+        label.setText("x: " + player.x + " y: " + player.y);
+        label_pipe.setText("pipe- x: " + topPipe.x + " y: " + topPipe.y);
     }
 
     @Override
@@ -67,9 +82,12 @@ public class GamePanel extends JPanel implements KeyListener {
         // player
         g.fillRect(player.x,player.y,player.width,player.height);
 
+    
         // pipes
         g.fillRect(topPipe.x,topPipe.y,topPipe.width,topPipe.height);
         g.fillRect(bottPipe.x,bottPipe.y,bottPipe.width,bottPipe.height);
+
+        
 
     }
 
@@ -81,15 +99,32 @@ public class GamePanel extends JPanel implements KeyListener {
 
         if (e.getKeyCode() == KeyEvent.VK_P){
 
-            if (pause)
-               time.start();
-            else
-                time.stop();
+              pause();
+        }
 
-            pause = !pause;
+        if (e.getKeyCode() == KeyEvent.VK_R){
+           resetart();
         }
     }
 
+
+
+    void resetart(){
+            player = new Player();
+            topPipe = new Pipe(Main.width , 0 , 50 , topPipeheight);
+            bottPipe = new Pipe(Main.width , bottomPipeY , 50 , 800);
+            time.start();
+    }
+
+    void pause(){
+        if (pause) {
+            time.start();
+        }else{
+            time.stop();
+        }
+
+        pause = !pause;
+    }
 
     @Override
     public void keyReleased(KeyEvent e) {

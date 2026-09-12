@@ -1,9 +1,11 @@
 
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
 import java.util.Random;
 
 public class GamePanel extends JPanel implements KeyListener {
@@ -11,6 +13,9 @@ public class GamePanel extends JPanel implements KeyListener {
 
     Timer time;
     Player player = new Player();
+
+    Image bird;
+    
     boolean jump = false;
     JLabel label = new JLabel("x: " + player.x + "y: " + player.y, SwingConstants.CENTER);  
  
@@ -29,6 +34,13 @@ public class GamePanel extends JPanel implements KeyListener {
     boolean pause = false;
 
     public GamePanel() {
+
+        try{
+           bird = ImageIO.read(new File("bird.png"));
+        }catch(Exception e){
+            System.out.println(e);
+        }
+
         setBackground(Color.LIGHT_GRAY);
         addKeyListener(this);
         add(label);
@@ -67,7 +79,7 @@ public class GamePanel extends JPanel implements KeyListener {
         }
 
 
-        if (player.collosionTop(topPipe) || player.collosionBott(bottPipe)) {
+        if (player.collosionTop(topPipe) || player.collosionBott(bottPipe) || player.y >= Main.height-40 || player.y <= 0) {
             pause();
         }
 
@@ -79,8 +91,10 @@ public class GamePanel extends JPanel implements KeyListener {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.setColor(Color.red);
+
+       g.drawImage(bird, player.x, player.y, player.width, player.height,this);
         // player
-        g.fillRect(player.x,player.y,player.width,player.height);
+        //g.fillRect(player.x,player.y,player.width,player.height);
 
     
         // pipes

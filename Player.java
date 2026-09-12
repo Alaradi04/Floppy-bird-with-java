@@ -8,8 +8,8 @@ public class Player {
     public Player(){
         x = (int)(Main.width * 0.1);
         y = Main.height/2 - 50;
-        width = 50;
-        height = 45;
+        width = 40;
+        height = 40;
     }
 
 

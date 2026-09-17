@@ -22,8 +22,8 @@ public class GamePanel extends JPanel implements KeyListener {
 
 
     // pipe variables
-    int bottomPipeY = 400 + new Random().nextInt(100);
-    int topPipeheight = 50 + new Random().nextInt(250);
+    int bottomPipeY = 200 + new Random().nextInt(200);
+    int topPipeheight = bottomPipeY - 100 - new Random().nextInt(50);
 
 
     Pipe topPipe = new Pipe(Main.width , 0 , 50 , topPipeheight);
@@ -71,8 +71,9 @@ public class GamePanel extends JPanel implements KeyListener {
         {
             topPipe.x = Main.width;
             bottPipe.x = Main.width;
-            bottomPipeY = 400 + new Random().nextInt(100);
-            topPipeheight =  50 + new Random().nextInt(250);
+            bottomPipeY = 100 + new Random().nextInt(450);
+            topPipeheight = bottomPipeY - 100 - new Random().nextInt(100);
+
 
             topPipe.height = topPipeheight;
             bottPipe.y = bottomPipeY;
